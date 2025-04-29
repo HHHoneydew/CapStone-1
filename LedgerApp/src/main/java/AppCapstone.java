@@ -5,12 +5,18 @@ import java.util.Scanner;
 public class AppCapstone {
     public static void main(String[] args) {
         Homescreen homeScreen = new Homescreen();
-        homeScreen.displayOption();
         LedgerScreen ledgerScreen = new LedgerScreen();
-        ledgerScreen.displayOption();
         ReportScreen reportscreen = new ReportScreen();
-        reportscreen.displayOption();
-
+        String choice = null;
+        while(choice == null || choice != "x" || choice != "X") {
+          if (homeScreen.isActive()) {
+              homeScreen.displayOption();
+          } else if (ledgerScreen.isActive()) {
+              ledgerScreen.displayOption();
+          } else {
+              reportscreen.displayOption();
+          }
+        }
     }
 }
 
