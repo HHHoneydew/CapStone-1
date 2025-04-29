@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class ReportScreen {
     private String name = null;
@@ -7,7 +8,7 @@ public class ReportScreen {
     private boolean isActive = false;
 
     public ReportScreen() {
-        Option monthToDate= new Option("1", "Month To Date");
+        Option monthToDate = new Option("1", "Month To Date");
         Option previousMonth = new Option("2", "Previous Month");
         Option yearToDate = new Option("3", "Year To Date");
         Option previousYear = new Option("4", "Previous Year");
@@ -22,6 +23,7 @@ public class ReportScreen {
         setName("Reports");
         setActive(false);
     }
+
     public void displayOption() {
         System.out.println(this.name + ":");
         if (this.options == null || this.options.isEmpty()) {
@@ -37,6 +39,7 @@ public class ReportScreen {
             }
         }
     }
+
     public void addOption(Option option) {
         if (this.options == null) {
             this.options = new ArrayList<>();
@@ -44,6 +47,7 @@ public class ReportScreen {
 
         this.options.add(option);
     }
+
     public List<Option> getOptions() {
         return options;
     }
@@ -66,5 +70,28 @@ public class ReportScreen {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public String processUserInput(Scanner scanner, LedgerScreen ledgerScreen) {
+        String choice = scanner.nextLine();
+        if (choice.toLowerCase().equals("1")) {
+            // month to date
+        } else if (choice.toLowerCase().equals("2")) {
+            // previous month
+        } else if (choice.toLowerCase().equals("3")) {
+            // year to date
+        } else if (choice.toLowerCase().equals("4")) {
+            // previous year
+        } else if (choice.toLowerCase().equals("5")) {
+            // search by vendor
+        } else if (choice.toLowerCase().equals("6")) {
+            activateLedgerScreen(ledgerScreen);
+        }
+        return choice;
+    }
+
+    private void activateLedgerScreen(LedgerScreen ledgerScreen) {
+        ledgerScreen.setActive(true);
+        setActive(false);
     }
 }

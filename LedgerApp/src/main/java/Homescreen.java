@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Homescreen {
     private String name = null;
@@ -17,6 +18,17 @@ public class Homescreen {
         addOption(exit);
         setName("Home");
         setActive(true);
+    }
+    public String processUserInput(Scanner scanner, LedgerScreen ledgerScreen) {
+        String choice = scanner.nextLine();
+        if (choice.toLowerCase().equals("d")) {
+            // perform deposit
+        } else if (choice.toLowerCase().equals("p")) {
+            // perform payment
+        } else if (choice.toLowerCase().equals("l")) {
+            activateLedgerScreen(ledgerScreen);
+        }
+        return choice;
     }
     public void displayOption() {
         System.out.println(this.name + ":" );
@@ -65,4 +77,8 @@ public class Homescreen {
         isActive = active;
     }
 
+    private void activateLedgerScreen(LedgerScreen ledgerScreen) {
+        ledgerScreen.setActive(true);
+        setActive(false);
+    }
 }

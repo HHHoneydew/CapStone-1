@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class LedgerScreen {
     private String name = null;
@@ -64,6 +65,29 @@ public class LedgerScreen {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+    public String processUserInput(Scanner scanner, ReportScreen reportScreen, Homescreen homescreen) {
+        String choice = scanner.nextLine();
+        if (choice.toLowerCase().equals("a")) {
+            // perform all
+        } else if (choice.toLowerCase().equals("d")) {
+            // perform deposits
+        } else if (choice.toLowerCase().equals("p")) {
+            // perform payments
+        } else if (choice.toLowerCase().equals("r")) {
+            activateReportScreen(reportScreen);
+        } else if (choice.toLowerCase().equals("h")) {
+            activatehomeScreen(homescreen);
+        }
+        return choice;
+    }
+    private void activateReportScreen(ReportScreen reportScreen) {
+        reportScreen.setActive(true);
+        setActive(false);
+    }
+    private void activatehomeScreen(Homescreen homescreen) {
+        homescreen.setActive(true);
+        setActive(false);
     }
 
 }
