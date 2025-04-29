@@ -21,6 +21,22 @@ public class Homescreen {
         setName("Home");
         setActive(true);
     }
+    public void displayOption() {
+        System.out.println(this.name + ":" );
+        if (this.options == null || this.options.isEmpty()) {
+            System.out.println("No options available for " + this.name);
+        }else {
+            for (int i = 0; i < options.size(); i++){
+              //  [D] "Add Deposit"
+                Option currentOption = this.options.get(i);
+                String display = "[" + currentOption.getInputSymbol() + "] "
+                        + currentOption.getDescription();
+                System.out.println(display);
+
+            }
+        }
+
+    }
     public void addOption(Option option) {
         if (this.options == null) {
             this.options = new ArrayList<>();
