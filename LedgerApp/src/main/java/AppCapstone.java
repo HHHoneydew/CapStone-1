@@ -6,14 +6,13 @@ import java.util.Scanner;
 public class AppCapstone {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Homescreen homeScreen = new Homescreen();
-        LedgerScreen ledgerScreen = new LedgerScreen();
-        ReportScreen reportscreen = new ReportScreen();
         String tranasctionFilePath = "C:\\pluralsight\\LearnToCodeAcademyCapstones\\CapStone-1\\LedgerApp\\src\\assets\\transactions.csv";
         String[] headerFields = { "date", "time", "description", "vendor", "amount"};
         CSVFileProcessor fileProcessor = new CSVFileProcessor(tranasctionFilePath, Arrays.asList(headerFields));
         fileProcessor.createFile();
-        fileProcessor.writeToFile("hello");
+        Homescreen homeScreen = new Homescreen(fileProcessor);
+        LedgerScreen ledgerScreen = new LedgerScreen();
+        ReportScreen reportscreen = new ReportScreen();
         String choice = null;
         while(true) {
             if(choice != null && choice.toLowerCase().equals("x")) {
