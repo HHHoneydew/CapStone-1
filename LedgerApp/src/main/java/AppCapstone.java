@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -8,6 +9,11 @@ public class AppCapstone {
         Homescreen homeScreen = new Homescreen();
         LedgerScreen ledgerScreen = new LedgerScreen();
         ReportScreen reportscreen = new ReportScreen();
+        String tranasctionFilePath = "C:\\pluralsight\\LearnToCodeAcademyCapstones\\CapStone-1\\LedgerApp\\src\\assets\\transactions.csv";
+        String[] headerFields = { "date", "time", "description", "vendor", "amount"};
+        CSVFileProcessor fileProcessor = new CSVFileProcessor(tranasctionFilePath, Arrays.asList(headerFields));
+        fileProcessor.createFile();
+        fileProcessor.writeToFile("hello");
         String choice = null;
         while(true) {
             if(choice != null && choice.toLowerCase().equals("x")) {
