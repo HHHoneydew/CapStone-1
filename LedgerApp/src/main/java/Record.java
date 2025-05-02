@@ -17,6 +17,8 @@ public class Record {
         this.vendor = vendor;
         this.amount = amount;
     }
+
+    // Convert record information into string with separator '|' (For example: 2025-05-01 | 12:18:25 | idk | random thing | 10.25)
     public String toString(){
         String formattedDate = date.format(dateFormatter);
         String formattedTime= time.format(timeFormatter);
