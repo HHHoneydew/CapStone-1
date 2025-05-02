@@ -89,6 +89,7 @@ public class ReportScreen {
         }
         return choice;
     }
+    private void displayMonthToDateReport() {}
 
     private void activateLedgerScreen(LedgerScreen ledgerScreen) {
         ledgerScreen.setActive(true);

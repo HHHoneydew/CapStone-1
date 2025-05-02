@@ -1,5 +1,5 @@
-import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CSVFileProcessor {
@@ -10,8 +10,31 @@ public class CSVFileProcessor {
         this.filePath = filePath;
         this.headers = headers;
     }
-    public List<>
+    public List<String> readFile(boolean isReadingHeader) {
+        List<String> output = new ArrayList<>();
+        try {
+            boolean isFirstLine = true;
+            FileReader fileReader = new FileReader(filePath);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String lineContent = null;
+            while((lineContent = bufferedReader.readLine()) != null) {
+                if (!isReadingHeader && isFirstLine) {
+                    isFirstLine = false;
+                } else if (lineContent.trim() != "") {
+                    output.add(lineContent);
+                }
+            }
+            bufferedReader.close();
+        } catch (IOException e){
+            System.out.println("error while reading file. " + e.getMessage());
+        }
+        return output;
+    }
     public void createFile() {
+        File file = new File(filePath);
+        if (file.exists()) {
+            return;
+        }
         try {
             FileWriter filewriter = new FileWriter(this.filePath);
             BufferedWriter bufferedWriter = new BufferedWriter(filewriter);

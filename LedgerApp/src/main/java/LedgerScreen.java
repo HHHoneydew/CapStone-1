@@ -1,3 +1,5 @@
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -6,8 +8,9 @@ public class LedgerScreen {
     private String name = null;
     private List<Option> options;
     private boolean isActive = false;
+    private CSVFileProcessor csvFileProcessor;
 
-    public LedgerScreen() {
+    public LedgerScreen(CSVFileProcessor csvFileProcessor) {
         Option all = new  Option("A", "All");
         Option deposits= new  Option("D", "Deposits");
         Option payments = new  Option("P", "Payments");
@@ -19,6 +22,7 @@ public class LedgerScreen {
         addOption(reports);
         addOption(home);
         setName("Ledger");
+        setCsvFileProcessor(csvFileProcessor);
         setActive(false);
     }
     public void displayOption() {
@@ -36,7 +40,59 @@ public class LedgerScreen {
             }
         }
     }
-        public void addOption(Option option) {
+    public List<Record> readFileAndMap() {
+      List<String> recordsFromFile = csvFileProcessor.readFile(false);
+      List<Record> records = new ArrayList<>();
+      for (int i = 0; i < recordsFromFile.size(); i++) {
+          String[] parts = recordsFromFile.get(i).split("\\|");
+          LocalDate date = LocalDate.parse(parts[0].trim());
+          LocalTime time = LocalTime.parse(parts[1].trim());
+          String description = parts[2].trim();
+          String vendor = parts[3].trim();
+          Double amount = Double.valueOf(parts[4].trim());
+          Record record = new Record(date, time, description, vendor, amount);
+          records.add(record);
+      }
+      return records;
+    }
+    public void displayRecords(List<Record> records, String noRecordMessage){
+        if (records.size() == 0) {
+            System.out.println(noRecordMessage);
+        }
+        else {
+            for (int i = 0; i < records.size(); i++) {
+                System.out.println(records.get(i).toString());
+            }
+        }
+    }
+    public void displayAll() {
+        System.out.println("All Transactions");
+        List<Record> records = readFileAndMap();
+        displayRecords(records, "There is no history available");
+    }
+    public List<Record> filterDepositAndPayment(List<Record> records, boolean isDeposit ) {
+        List<Record> filteredList = new ArrayList<>();
+        for (int i = 0; i < records.size(); i++) {
+            Record currentRecord = records.get(i);
+            if ((isDeposit && currentRecord.getAmount() >= 0) || (!isDeposit && currentRecord.getAmount() < 0)) {
+                filteredList.add(currentRecord);
+            }
+        }
+        return filteredList;
+    }
+    public void displayDeposit() {
+        System.out.println("All Deposits");
+        List<Record> records = readFileAndMap();
+        List<Record> deposit = filterDepositAndPayment(records, true);
+        displayRecords(deposit, "There are no deposits");
+    }
+    public void displayPayment() {
+        System.out.println("All Payments");
+        List<Record> records = readFileAndMap();
+        List<Record> payment = filterDepositAndPayment(records, false);
+        displayRecords(payment, "There are no payments");
+    }
+    public void addOption(Option option) {
         if (this.options == null) {
             this.options = new ArrayList<>();
         }
@@ -69,11 +125,11 @@ public class LedgerScreen {
     public String processUserInput(Scanner scanner, ReportScreen reportScreen, Homescreen homescreen) {
         String choice = scanner.nextLine();
         if (choice.toLowerCase().equals("a")) {
-            // perform all
+            displayAll();
         } else if (choice.toLowerCase().equals("d")) {
-            // perform deposits
+            displayDeposit();
         } else if (choice.toLowerCase().equals("p")) {
-            // perform payments
+            displayPayment();
         } else if (choice.toLowerCase().equals("r")) {
             activateReportScreen(reportScreen);
         } else if (choice.toLowerCase().equals("h")) {
@@ -88,6 +144,13 @@ public class LedgerScreen {
     private void activatehomeScreen(Homescreen homescreen) {
         homescreen.setActive(true);
         setActive(false);
+    }
+    public CSVFileProcessor getCsvFileProcessor() {
+        return csvFileProcessor;
+    }
+
+    public void setCsvFileProcessor(CSVFileProcessor csvFileProcessor) {
+        this.csvFileProcessor = csvFileProcessor;
     }
 
 }

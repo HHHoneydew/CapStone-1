@@ -9,7 +9,7 @@ public class AppCapstone {
         CSVFileProcessor fileProcessor = new CSVFileProcessor(tranasctionFilePath, Arrays.asList(headerFields));
         fileProcessor.createFile();
         Homescreen homeScreen = new Homescreen(fileProcessor);
-        LedgerScreen ledgerScreen = new LedgerScreen();
+        LedgerScreen ledgerScreen = new LedgerScreen(fileProcessor);
         ReportScreen reportscreen = new ReportScreen();
         String choice = null;
         while(true) {
